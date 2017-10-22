@@ -1,0 +1,49 @@
+@import './public/empty.less';
+
+.ipt-box {
+    width: 520px;
+    height: 480px;
+    background: #fff;
+    border: 1px solid #cdcdcd;
+    border-radius: 4px;
+    margin: 140px auto;
+    text-align: center;
+    
+    h3 {
+        color: #ccc;
+        font-size: 36px;
+        margin: 30px;
+    }
+    .ipt {
+        display: block;
+        height: 36px;
+        width: 286px;
+        margin: 20px auto;
+        border:1px solid #ccc;
+        border-radius: 4px;
+        line-height: 36px;
+        padding: 0 10px;
+        font-size: 12px
+    }
+
+    .btn {
+        color: #fff;
+        background: #cdcdcd;
+        cursor: default;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 320px){
+    
+    .ipt-box {
+        width: 320px;
+        height: 450px;
+        margin: 100px auto;
+    }
+
+    .ipt {
+        height: 30px;
+        line-height: 30px;
+        margin: 15px auto;
+    }
+}

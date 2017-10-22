@@ -1,0 +1,63 @@
+@import './public/empty.less';
+
+.header {
+    min-width: 320px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    height: 56px;
+    background: #fff;
+    border-bottom: 1px solid #ddd; 
+
+    a {
+        color: #696969;
+        margin-left: 20px; 
+    }
+}
+
+.conten {
+    min-width: 320px;
+    padding: 0 10%;
+
+    h1 {
+        font-size: 56px;
+        margin: 30px auto;
+        color: #333;
+        text-align: center;
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        margin: 30px auto;
+        color: #1F394F;
+    }
+
+    .list-box{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .list-item {
+            flex: 1 1 auto;
+
+            .item {
+                line-height: 26px;
+                color: black;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+        
+
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 320px){
+
+    .header {
+        font-size: 14px;
+        height: 46px;
+    }
+}

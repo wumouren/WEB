@@ -1,0 +1,12 @@
+{
+  "name": "ajax",
+  "version": "1.0.0",
+  "description": "This is taking notes.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js && node webpage.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wumouren",
+  "license": "ISC"
+}

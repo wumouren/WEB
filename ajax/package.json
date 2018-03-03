@@ -4,9 +4,13 @@
   "description": "This is taking notes.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js && node webpage.js",
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "wumouren",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
 }

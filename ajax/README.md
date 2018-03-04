@@ -138,7 +138,7 @@ $('#proxyBtn').addEventListener('click',(e) => {
 这里需要大家安装 Nginx ,关于 Nginx 的安装，网上教程很多，这里不做赘述。（下面是我阿里云的 Nginx 配置截图）   
 在安装完 Nginx 后,我们打开 Nginx 的配置文件：
 ![](./public/img/01.png)  
-在配置文件中我们可以找到上图红框中的一句话，表明 Nginx 会从该路径加载 Nginx 的配置。我们可以在该文件夹下新增配置文件，来转发请求： 
+在配置文件中我们可以找到上图红框中的一句话，表明 Nginx 会从该路径加载 Nginx 的配置。我们可以在该文件夹下新增配置文件，来转发请求：    
 ![](./public/img/03.png)    
 ![](./public/img/02.png)   
 其中 server_name 来设置我们监听的端口 

@@ -143,12 +143,84 @@ $('#proxyBtn').addEventListener('click',(e) => {
 在配置文件中我们可以找到上图红框中的一句话，表明 Nginx 会从该路径加载 Nginx 的配置。我们可以在该文件夹下新增配置文件，来转发请求：    
 ![](./public/img/03.png)    
 ![](./public/img/02.png)   
-其中 server_name 来设置我们监听的端口 
+其中 ：
+> server_name 来设置我们监听的同源请求路径。   
+> porxy_pass 来设置需要转发的请求地址。  
 
+然后重新启动 Nginx 来重新载入配置项，完成请求的代理转发。
 
+2、后端配置请求头（CORS）   
 
+1) 通过设置 Access-Control-Allow-Origin 来允许跨域  
+首先我们来看几张截图：   
+![](./public/img/04.png)      
+![](./public/img/05.png)     
+![](./public/img/06.png)      
+![](./public/img/07.png)    
+通过上图，我们可以看到，跨域请求已经成功，后台数据也已经返回，而控制台却依旧报跨域安全错误，更加充分的说明了，跨域安全错误是浏览器多管闲事，并非是后台服务的限制。在图中，我们还可以还看到，跨域请求的请求头中比非跨域请求多出了一个 Origin 参数，表明了请求来源。我们将跨域请求的请求头打印出来观察，如下图：  
+![](./public/img/08.png)    
+因此，我们可以通过在请求头中添加 Access-Control-Allow-Origin 属性，来告诉浏览器：允许该来源的跨域请求。
+```
+  .get('/all',(req,res) => {
+    res.set('Access-Control-Allow-Origin',req.headers.origin);
+    res.send({ info : '通过在请求头中设置 Access-Control-Allow-Origin 来告诉浏览器：允许所有的跨域请求（当带有 cookie）'})
+  })
+```
 
+详细示例代码在[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/server.js)
 
+2) 简单请求和非简单请求（详细内容请看[这里](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#Preflighted_requests),或者[这里](http://www.ruanyifeng.com/blog/2016/04/cors.html)）。   
+跨域请求可以分为简单请求和非简单请求，同时满足以下所有条件的请求称之为简单请求：  
+> 使用下列方法之一：  
+>   GET
+>   HEAD
+>   POST
+> Fetch 规范定义了对 CORS 安全的首部字段集合，不得人为设置该集合之外的其他首部字段。该集合为：
+>   Accept
+>   Accept-Language
+>   Content-Language
+>   Content-Type （需要注意额外的限制）
+>   DPR
+>   Downlink
+>   Save-Data
+>   Viewport-Width
+>   Width
+> Content-Type 的值仅限于下列三者之一：
+>   text/plain
+>   multipart/form-data
+>   application/x-www-form-urlencoded
+
+我们在实际工作中，有时会在请求中添加自定义请求头来满足业务需求，例如：添加 token 做身份校验。此时，我们便发出了一条非简单请求。如下图：    
+![](./public/img/01.png)         
+![](./public/img/10.png)   
+![](./public/img/11.png)
+
+观察图片信息，我们可以看到，当我们添加自定义请求头时，浏览器会先发送 OPTION 预检请求，来和后台进行确信，当后台响应头中不存在我们添加的自定义头时，便会报错。
+我们可以在后台服务中做以下处理：  
+```
+  .all('*',(req,res,next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'token');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method == 'OPTIONS') {
+      res.send(200); 
+    } else {
+      next();
+    }
+  })
+```
+
+在响应头中添加自定义的请求头，让浏览器通过预检请求，发出真正的请求信息。   
+> next 参数的作用在于让代码往下执行，因为 * 号可以匹配所有的路由，如果不调用 next ,则下面所有的请求都会被拦截下来。
+
+详细示例代码在[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/server.js)
+虽然解决了自定义请求头的跨域问题,但是这里还有一个问题，如图：  
+![](./public/img/12.png)  
+
+观察图片我们看到：每次的跨域请求，浏览器都会发送预检信息。    
+这个问题我们可以通过设置 Access-Control-Max-age 缓存预检命令结果来进行优化。
+
+### 以上便是这次笔记的所有内容，若有描述不对的地方，望大家批评指正
 
 
 

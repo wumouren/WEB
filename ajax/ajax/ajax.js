@@ -22,23 +22,33 @@ export function ajax(option){
    */
   let xhr;
   if (window.XMLHttpRequest){
-      xhr = new XMLHttpRequest();
+    xhr = new XMLHttpRequest();
   }else{
-      xhr = new ActiveXObject('Microsoft.XMLHTTP')
+    xhr = new ActiveXObject('Microsoft.XMLHTTP')
   }
 
   /**
    * 发送请求
    */
   if (options.type == 'GET'){
-      xhr.open("GET",options.url + '?' + options.data ,options.async);
-      xhr.send(null)
+    xhr.open("GET",options.url + '?' + options.data ,options.async);
+    // 添加自定义请求头 
+    for(let key in options.header){
+      xhr.setRequestHeader(key,options.header[key]);
+    }
+    xhr.send(null)
   }else if (options.type == 'POST'){
-      xhr.open('POST',options.url,options.async);
-      // POST请求设置请求头
-      xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-      xhr.send(options.data);
+    xhr.open('POST',options.url,options.async);
+    // POST请求设置请求头
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    // 添加自定义请求头 
+    for(let key in options.header){
+      xhr.setRequestHeader(key,options.header[key]);
+    }
+    xhr.send(options.data);
   }
+
+ 
   /**
    * callback
    */

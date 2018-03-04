@@ -13,7 +13,7 @@ function $(str){
   }
 }
 
-// 服务端转发请求，避免产生跨域问题
+// 服务端转发请求，避免产生跨域问题安全问题
 $('#proxyBtn').addEventListener('click',(e) => {
   ajax({
     url: proxyUrl + 'proxy',
@@ -22,12 +22,12 @@ $('#proxyBtn').addEventListener('click',(e) => {
     async: true,
     success: function(res,data){
       $('#proxy').innerText = res.info;
-    },
+    }
   })
 })
 
-// 通过 jsonp 来解决跨域问题
 
+// 通过 jsonp 来解决跨域问题安全问题
 $('#jsonpBtn').addEventListener('click',(e) => {
   jsonp({
     url: serverUrl + 'jsonp',
@@ -37,4 +37,32 @@ $('#jsonpBtn').addEventListener('click',(e) => {
   function jsonpCallback(res){
     $('#jsonp').innerText = res.info;
   }
+})
+
+
+// 通过设置 Access-Control-Allow-Origin 来解决跨域问题
+$('#headAll').addEventListener('click',(e) => {
+  ajax({
+    url: serverUrl + 'all',
+    type: 'GET',
+    async: true,
+    success: function(res){
+      $('#all').innerText = res.info;
+    },
+  })
+})
+
+// 非简单请求
+$('#addHeaderBtn').addEventListener('click',(e) => {
+  ajax({
+    url: serverUrl + 'addHeader',
+    type: 'GET',
+    async: true,
+    header:{
+      token: 'option'
+    },
+    success: function(res){
+      $('#addHeader').innerText = res.info;
+    },
+  })
 })

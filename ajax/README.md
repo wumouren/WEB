@@ -172,23 +172,23 @@ $('#proxyBtn').addEventListener('click',(e) => {
 2) 简单请求和非简单请求（详细内容请看[这里](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#Preflighted_requests),或者[这里](http://www.ruanyifeng.com/blog/2016/04/cors.html)）。   
 跨域请求可以分为简单请求和非简单请求，同时满足以下所有条件的请求称之为简单请求：  
 > 使用下列方法之一：  
->   GET
->   HEAD
->   POST
-> Fetch 规范定义了对 CORS 安全的首部字段集合，不得人为设置该集合之外的其他首部字段。该集合为：
->   Accept
->   Accept-Language
->   Content-Language
->   Content-Type （需要注意额外的限制）
->   DPR
->   Downlink
->   Save-Data
->   Viewport-Width
->   Width
-> Content-Type 的值仅限于下列三者之一：
->   text/plain
->   multipart/form-data
->   application/x-www-form-urlencoded
+>   GET  
+>   HEAD  
+>   POST  
+> Fetch 规范定义了对 CORS 安全的首部字段集合，不得人为设置该集合之外的其他首部字段。该集合为：  
+>   Accept  
+>   Accept-Language  
+>   Content-Language  
+>   Content-Type （需要注意额外的限制）  
+>   DPR  
+>   Downlink  
+>   Save-Data  
+>   Viewport-Width  
+>   Width  
+> Content-Type 的值仅限于下列三者之一：  
+>   text/plain  
+>   multipart/form-data  
+>   application/x-www-form-urlencoded  
 
 我们在实际工作中，有时会在请求中添加自定义请求头来满足业务需求，例如：添加 token 做身份校验。此时，我们便发出了一条非简单请求。如下图：    
 ![](./public/img/09.png)         

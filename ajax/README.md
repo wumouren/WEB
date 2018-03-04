@@ -43,6 +43,8 @@ Ajax 不是一种编程语言，而是一种在无需重新加载整个网页的
 > open 方法规定请求的类型、URL 以及是否异步处理请求等信息。  
 > send 方法来向后台发送一个请求，在 post 请求中，我们将请求数据作为 send 方法的参数发送个后台。  
 > setRequestHeader 方法用来设置请求头信息。  
+
+
 3、监听状态码，请求结束后通过回调函数来处理返回数据。
 ```
   xhr.onreadystatechange = function () {
@@ -77,12 +79,13 @@ Ajax 不是一种编程语言，而是一种在无需重新加载整个网页的
 #### 解决跨域的思路
 既然跨域安全问题的产生必须同时满足以上两个条件，那么我们便可以从下面这两个方面来解决跨域安全问题：  
 1、解决浏览器限制问题   
-  1）我们可以在打开浏览器时，手动关闭浏览器的限制，但是这个解决方法几乎毫无用处，我们不可能要求每个用户每次访问网站时都来进行手动操作。  
-  2）通过在后端配置请求头信息，来告诉浏览器，允许对方跨域访问。（CORS）  
+  1）我们可以在打开浏览器时，手动关闭浏览器的限制，但是这个解决方法几乎毫无用处，我们不可能要求每个用户每次访问网站时都来进行手动操作。   
+  2）代理转发。我们可以在同源下利用代理服务器来转发请求，避过浏览器限制。       
+  3）通过在后端配置请求头信息，来告诉浏览器，允许对方跨域访问。（CORS）  
 2、采取非同源策略限制下的其他手段。（JSONP）
 
 #### 具体实现    
-1、首先我们来聊一聊作为前端较为容易实现的解决手段 JSONP  
+一、首先我们来聊一聊广为人知的解决手段 JSONP  
 我们可以通过动态来创建一个 script 标签，来向后台请求数据信息，在请求参数里带入前后端约定的回调函数名称，来实现在返回 script 文件中调用数据处理函数。
 ```
   const head = document.getElementsByTagName('head')[0];  
@@ -91,11 +94,54 @@ Ajax 不是一种编程语言，而是一种在无需重新加载整个网页的
   s.src = url + jsonpCallback;  
   head.appendChild(s);  
 ``` 
-但这个方法存在一些弊端：
+但这个方法存在一些弊端：   
 1、首先，因为回掉函数名是通过 url 带入的参数，所以 JSONP 只支持 get 请求。  
 2、其次，这个方法需要前后端约定好，当后台服务非本公司或无法改动时，则无法实现 JSONP。  
 
-[在这里]()我做了一个简易的 JSONP 封装。
+[在这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/ajax/jsonp.js)我做了一个简易的 JSONP 封装。
+
+
+二、解决浏览器的限制   
+手动关闭浏览器限制的方法，因其实用性不大，这里不做赘述。  
+1、通过代理转发  
+1）node 转发。  
+我们可以在本域下创建 node 代理服务，来转发请求：  
+```
+// node 服务代码  详细代码示例，请看[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/server.js)  
+
+const express = require('express');  
+const request = require('request');  
+express()  
+  .get('/proxy',(req,res) => {  
+    request(req.query.proxy, function (error, response, body) {  
+      res.send(body);  
+    });  
+  })  
+  .listen(8081)  
+```
+```
+// 前端 js 代码   详细代码示例，请看[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/client.js)  
+
+$('#proxyBtn').addEventListener('click',(e) => {
+  ajax({
+    url: proxyUrl + 'proxy',
+    proxy: serverUrl + 'proxy',
+    type: 'GET',
+    async: true,
+    success: function(res,data){
+      $('#proxy').innerText = res.info;
+    },
+  })
+})
+
+```
+2) Nginx 转发  
+这里需要大家安装 Nginx ,关于 Nginx 的安装，网上教程很多，这里不做赘述。  
+在安装完 Nginx 后,我们打开 Nginx 的配置文件：
+![](./public/img/01.png)  
+
+
+
 
 
 

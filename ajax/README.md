@@ -106,9 +106,8 @@ Ajax 不是一种编程语言，而是一种在无需重新加载整个网页的
 1、通过代理转发  
 1）node 转发。  
 我们可以在本域下创建 node 代理服务，来转发请求：  
-```
 // node 服务代码  详细代码示例，请看[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/server.js)  
-
+```
 const express = require('express');  
 const request = require('request');  
 express()  
@@ -119,9 +118,9 @@ express()
   })  
   .listen(8081)  
 ```
-```
-// 前端 js 代码   详细代码示例，请看[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/client.js)  
 
+前端 js 代码   详细代码示例，请看[这里](https://github.com/wumouren/WEB-DEV/blob/master/ajax/client.js)   
+```
 $('#proxyBtn').addEventListener('click',(e) => {
   ajax({
     url: proxyUrl + 'proxy',
@@ -135,10 +134,14 @@ $('#proxyBtn').addEventListener('click',(e) => {
 })
 
 ```
-2) Nginx 转发  
-这里需要大家安装 Nginx ,关于 Nginx 的安装，网上教程很多，这里不做赘述。  
+2) Nginx 转发（关于 Nginx 我所知不多，描述不对之处，望批评指正！）   
+这里需要大家安装 Nginx ,关于 Nginx 的安装，网上教程很多，这里不做赘述。（下面是我阿里云的 Nginx 配置截图）   
 在安装完 Nginx 后,我们打开 Nginx 的配置文件：
 ![](./public/img/01.png)  
+在配置文件中我们可以找到上图红框中的一句话，表明 Nginx 会从该路径加载 Nginx 的配置。我们可以在该文件夹下新增配置文件，来转发请求： 
+![](./public/img/03.png)    
+![](./public/img/02.png)   
+其中 server_name 来设置我们监听的端口 
 
 
 

@@ -191,7 +191,7 @@ $('#proxyBtn').addEventListener('click',(e) => {
 >   application/x-www-form-urlencoded
 
 我们在实际工作中，有时会在请求中添加自定义请求头来满足业务需求，例如：添加 token 做身份校验。此时，我们便发出了一条非简单请求。如下图：    
-![](./public/img/01.png)         
+![](./public/img/09.png)         
 ![](./public/img/10.png)   
 ![](./public/img/11.png)
 

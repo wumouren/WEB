@@ -11,6 +11,9 @@
       padding: 0;
       font-size: 16px;
     }
+    h2{
+      margin: 20px;
+    }
     button{
       border: 0;
       border-radius: 2px;
@@ -25,8 +28,13 @@
   </style>
 </head>
 <body>
+  <h2>点击下面按键，发起请求</h2>
+  
   <button id="proxyBtn">从服务端转发跨域请求</button>
   <div class="text" id="proxy"></div>
+  
+  <button id="jsonpBtn">通过 jsonp 解决跨域请求</button>
+  <div class="text" id="jsonp"></div>
   <script type="module" src="./public/index.js"></script>
 </body>
 </html>

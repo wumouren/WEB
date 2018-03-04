@@ -1,4 +1,4 @@
-import ajax from '../ajax/index.js';
+import { ajax, jsonp } from '../ajax/index.js';
 const proxyUrl = 'http://127.0.0.1:8081/';
 const serverUrl = 'http://127.0.0.1:8082/';
 // 选择器简易封装
@@ -13,19 +13,28 @@ function $(str){
   }
 }
 
-// 服务端转发请求，避免跨域
+// 服务端转发请求，避免产生跨域问题
 $('#proxyBtn').addEventListener('click',(e) => {
   ajax({
     url: proxyUrl + 'proxy',
     proxy: serverUrl + 'proxy',
     type: 'GET',
-    dataType: 'json',
     async: true,
-    data: {},
-    header: {},
     success: function(res,data){
       $('#proxy').innerText = res.info;
     },
-    fail: function(){}
   })
+})
+
+// 通过 jsonp 来解决跨域问题
+
+$('#jsonpBtn').addEventListener('click',(e) => {
+  jsonp({
+    url: serverUrl + 'jsonp',
+    name: 'jsonpCallback',
+    callback: jsonpCallback
+  })
+  function jsonpCallback(res){
+    $('#jsonp').innerText = res.info;
+  }
 })
